@@ -6,26 +6,29 @@ const server = http
   .createServer((req, res) => {
     console.info(`[${now}] Requested by ${req.connection.remoteAddress}`)
     res.writeHead(200, {
-      'Content-Type': 'text/plain; charset=utf-8'
+      'Content-Type': 'text/html; charset=utf-8'
     });
 
     switch (req.method) {
       case 'GET':
-        res.write(`GET ${req.url}`);
+        const fs = require('fs');
+        const rs = fs.createReadStream('./form.html');
+        rs.pipe(res);
         break;
       case 'POST':
-        res.write(`POST ${req.url}`);
         let rawData = '';
         req.on('data', (chunk) => {
           rawData += chunk;
         }).on('end', () => {
-          console.info(`${now} Data posted: ${rawData}`);
+          const decoded = decodeURIComponent(rawData);
+          console.info(`${now} 投稿: ${decoded}`);
+          res.write(`<h1>${decoded}が投稿されました。</h1>`)
+          res.end();
         });
         break;
       default:
         break;
     }
-    res.end();
   })
   .on('error', e => {
     console.error(`[${now}] Server Error`, e);
