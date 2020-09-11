@@ -4,7 +4,7 @@ const server = http
     .createServer((req, res) => {
         console.info(`[${new Date()}] Requested by ${req.connection.remoteAddress}`)
         res.writeHead(200, {
-            'Content-Type': 'text/plane; charset=utf-8'
+            'Content-Type': 'text/plain; charset=utf-8'
         });
         res.write(req.headers['user-agent']);
         res.end();
