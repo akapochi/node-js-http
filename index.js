@@ -50,7 +50,7 @@ const server = http
   .on('clientError', e => {
     console.error(`[${now}] Client Error`, e);
   });
-const port = 8000;
+const port = process.env.PORT || 8000;
 server.listen(port, () => {
   console.info(`[${now}] ポート ${port} 番でサーバー起動しました`);
 });
